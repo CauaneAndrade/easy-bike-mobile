@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1049708042427",
+    "project_id": "test-7b1c8",
+    "storage_bucket": "test-7b1c8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1049708042427:android:0a86d0ab5c13e3fc4c719e",
+        "android_client_info": {
+          "package_name": "com.easy.easybike"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1049708042427-d8shbpr6huil5qgn52t5o968jv1ud8nc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9-gppqi6PpZtiLgknPmF4VeOxEzBt9Ac"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1049708042427-d8shbpr6huil5qgn52t5o968jv1ud8nc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

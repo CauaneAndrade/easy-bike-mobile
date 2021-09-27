@@ -51,3 +51,10 @@ Aqui estão os integrantes da equipe e seus respectivos links do Github.
    [mysql]: <https://www.mysql.com/>
    [jpa]: <https://spring.io/projects/spring-data-jpa>
    [maven]:<https://maven.apache.org/>
+
+
+
+---
+
+- Firebase
+- https://reactnavigation.org/docs/getting-started/
