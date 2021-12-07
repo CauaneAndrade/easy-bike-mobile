@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dimensions,
   FlatList,
@@ -9,39 +9,23 @@ import {
   View
 } from "react-native";
 import Carousel from "react-native-snap-carousel";
+import General from "../../config/api";
 import styles from "./style";
 
-export default function BicicletaDetails({ navigation, userLogado, user }) {
-  const getAnuncios = () => {
-    return [
-      {
-        id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-        tituloAnuncio: "tituloAnuncio 1",
-        donoBicicleta: "donoBicicleta 1",
-        marcaBicicleta: "marcaBicicleta 1",
-        anoFabricacao: "anoFabricacao 1",
-        images: [
-          "https://static.netshoes.com.br/produtos/bicicleta-aro-26-gts-feel-freio-a-disco-21-marchas/08/W88-0006-108/W88-0006-108_zoom1.jpg",
-          "https://static.netshoes.com.br/produtos/bicicleta-aro-26-masculina-18-marchas-aco-carbono-ultra-bikes/14/ISL-0024-014/ISL-0024-014_zoom1.jpg",
-        ],
-      },
-      {
-        id: "bd7acddbea-c1b1-46c2-aed5-3ad5sss3abb28ba",
-        tituloAnuncio: "tituloAnuncio 2",
-        donoBicicleta: "donoBicicleta 2",
-        marcaBicicleta: "marcaBicicleta 2",
-        anoFabricacao: "anoFabricacao 2",
-        images: [
-          "https://static.netshoes.com.br/produtos/bicicleta-aro-26-gts-feel-freio-a-disco-21-marchas/08/W88-0006-108/W88-0006-108_zoom1.jpg",
-          "https://static.netshoes.com.br/produtos/bicicleta-aro-26-masculina-18-marchas-aco-carbono-ultra-bikes/14/ISL-0024-014/ISL-0024-014_zoom1.jpg",
-        ],
-      },
-    ];
-  };
-  const DATA = [];
-  for (let i = 0; i < 10; i++) {
-    DATA.push(i);
-  }
+export default function BicicletaDetails({ navigation, user }) {
+  const [anunciosAll, setAnunciosAll] = useState();
+
+  useEffect(() => {
+    async function getAnuncios() {
+      console.log("-----estou na funcao-----");
+      const resp = await General.getBicicletas();
+      await setAnunciosAll(resp);
+    }
+    console.log("----vou chamar a funcao-----");
+    getAnuncios();
+    console.log(anunciosAll);
+    console.log("----chamei a funcao-----");
+  }, []);
 
   const SLIDER_WIDTH = Dimensions.get("window").width;
   const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.7);
@@ -58,17 +42,11 @@ export default function BicicletaDetails({ navigation, userLogado, user }) {
     );
   };
 
-  const Item = ({
-    donoBicicleta,
-    tituloAnuncio,
-    marcaBicicleta,
-    anoFabricacao,
-    images,
-  }) => (
+  const Item = ({ dono, estilo, marca, ano_fabricacao, foto }) => (
     <View>
       <View style={styles.item}>
         <Carousel
-          data={images}
+          // data={foto}
           renderItem={renderImage}
           sliderWidth={SLIDER_WIDTH}
           itemWidth={ITEM_WIDTH}
@@ -78,46 +56,50 @@ export default function BicicletaDetails({ navigation, userLogado, user }) {
         />
 
         <View style={{ alignSelf: "flex-end" }}>
-          <Text style={styles.title}>{tituloAnuncio}</Text>
-          <Text style={styles.title}>{donoBicicleta}</Text>
-          <Text style={styles.title}>{marcaBicicleta}</Text>
-          <Text style={styles.title}>{anoFabricacao}</Text>
+          <Text style={styles.title}>Estilo: {estilo}</Text>
+          <Text style={styles.title}>Dono: {dono}</Text>
+          <Text style={styles.title}>Marca: {marca}</Text>
+          <Text style={styles.title}>Ano Fabricação: {ano_fabricacao}</Text>
         </View>
       </View>
 
-      {userLogado && user.categoria === "ciclista" && <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-            console.log("#################");
-        }}
-      >
-        <Text style={styles.buttonText}>Demonstrar interesse</Text>
-      </TouchableOpacity>}
+      {user && user.categoria === "Ciclista" && (
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            console.log("Ciclista");
+          }}
+        >
+          <Text style={styles.buttonText}>Demonstrar interesse</Text>
+        </TouchableOpacity>
+      )}
 
-      {!userLogado && <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-            navigation.navigation.navigate("Perfil");
-        }}
-      >
-        <Text style={styles.buttonText}>Demonstrar interesse</Text>
-      </TouchableOpacity>}
+      {!user && (
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            navigation.navigation.navigate("Login");
+          }}
+        >
+          <Text style={styles.buttonText}>Demonstrar interesse</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
   const renderItem = ({ item }) => (
     <Item
-      donoBicicleta={item.donoBicicleta}
-      tituloAnuncio={item.tituloAnuncio}
-      marcaBicicleta={item.marcaBicicleta}
-      anoFabricacao={item.anoFabricacao}
-      images={item.images}
+      dono={item.dono}
+      estilo={item.estilo}
+      marca={item.marca}
+      ano_fabricacao={item.ano_fabricacao}
+      foto={item.foto}
     />
   );
 
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={getAnuncios()}
+        data={anunciosAll}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
       />

@@ -6,8 +6,8 @@ from core.viewsets import usuario, bicicleta, aluguel
 router = routers.DefaultRouter()
 router.register(r'users', usuario.UserViewSet)
 router.register(r'bicicleta', bicicleta.BicicletaViewSet)
-router.register(r'aluguel', aluguel.AluguelViewSet)
 router.register(r'devolucao', aluguel.DevolucaoViewSet)
+router.register(r'aluguel', aluguel.AluguelViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

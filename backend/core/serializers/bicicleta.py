@@ -15,6 +15,7 @@ class BicicletaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Bicicleta
         fields = [
+            'id',
             'dono',
             'estilo',
             'marca',

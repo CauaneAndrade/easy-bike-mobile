@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import style from "./style";
 
+
 export default function BicicletaNew({ navigation }) {
   const [tituloAnuncio, setTituloAnuncio] = useState("");
   const [estiloUso, setEstiloUso] = useState("");

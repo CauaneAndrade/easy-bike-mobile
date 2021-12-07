@@ -1,49 +1,42 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
+// import { getUserLogin } from './src/config/api';
 import Login from "./src/pages/Auth/Login";
 import BicicletaList from "./src/pages/BicicletaList";
+import BicicletaNew from "./src/pages/BicicletaNew";
 
-const SettingsStack = createNativeStackNavigator();
-
-const API_URL = "http://192.168.0.2:8000/api/users/";
-
-const userLogado = false;
-
-async function Perfil() {
-  return (
-    <SettingsStack.Navigator>
-      {userLogado && <SettingsStack.Screen component={Login} />}
-      {!userLogado && (
-        <SettingsStack.Screen
-          name="Login"
-          component={Login}
-          options={{
-            headerShown: false,
-          }}
-        />
-      )}
-    </SettingsStack.Navigator>
-  );
-}
+// import { createNativeStackNavigator } from "@react-navigation/native-stack";
+// const SettingsStack = createNativeStackNavigator();
+// async function Perfil() {
+//   return (
+//     <SettingsStack.Navigator>
+//       {userLogado && <SettingsStack.Screen component={Login} />}
+//       {!userLogado && (
+//         <SettingsStack.Screen
+//           name="Login"
+//           component={Login}
+//           options={{
+//             headerShown: false,
+//           }}
+//         />
+//       )}
+//     </SettingsStack.Navigator>
+//   );
+// }
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-  const [user, setUser] = useState({});
-  const [categoria, setCategoria] = useState('');
+  const [user, setUser] = useState({});  
 
   useEffect(() => {
-    async function fetchMyAPI() {
-      let response = await fetch(API_URL);
-      response = await response.json();
-      setUser(response[0]);
+    async function fetchData() {
+      // const userLogedIn = await getUserLogin();
+      // setUser(userLogedIn);
+      console.log('');
     }
-
-    fetchMyAPI();
-    console.log("---1-");
-    console.log(user);
+    fetchData();
   }, []);
 
   return (
@@ -52,16 +45,26 @@ export default function App() {
         screenOptions={{ headerShown: true, headerTintColor: "#1a8cff" }}
       >
         <Tab.Screen
-          name="Buscar bicicleta"
+          name="Listagem de Bicicletas"
           children={(navigation) => (
             <BicicletaList
               navigation={navigation}
-              userLogado={userLogado}
               user={user}
             />
           )}
         />
-        <Tab.Screen name="Perfil" component={Perfil} />
+        <Tab.Screen
+          name="Cadastrar bicicleta"
+          children={(navigation) => (
+            <BicicletaNew
+              navigation={navigation}
+            />
+          )}
+        />
+        <Tab.Screen
+          name="Perfil"
+          children={(navigation) => <Login navigation={navigation} />}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );

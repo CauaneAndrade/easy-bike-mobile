@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import {
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View
-} from "react-native";
+import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import authService from "../../../config/auth.service";
 import style from "./style";
 
-export default function Login() {
+export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const login = async () => {
+    const data = await authService.login(email, password);
+    navigation.navigation.navigate("Listagem de Bicicletas");
+  };
 
   return (
     <View style={style.container}>
@@ -40,14 +41,12 @@ export default function Login() {
         <Text style={style.forgot_button}>Forgot Password?</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={style.loginBtn}>
+      <TouchableOpacity style={style.loginBtn} onPress={login}>
         <Text style={style.loginText}>LOGIN</Text>
       </TouchableOpacity>
-      <Text
-      style={style.separator}
-      >ou</Text>
+      <Text style={style.separator}>ou</Text>
       <TouchableOpacity
-      style={style.newAccountBtn}
+        style={style.newAccountBtn}
         onPress={() => {
           console.log("");
         }}
@@ -57,5 +56,3 @@ export default function Login() {
     </View>
   );
 }
-
-
